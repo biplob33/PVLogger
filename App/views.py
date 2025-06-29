@@ -4,6 +4,7 @@ import datetime
 from django.db.models import Sum
 from django.shortcuts import redirect
 from django.http import JsonResponse
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -123,5 +124,5 @@ def add_data(request):
         defaults={'months_generation': total_monthly_consumption_data}
     )
     # Set a success message in the session for middleware to pick up
-    request.session['message'] = 'Data added successfully!'
+    messages.success(request, 'Data added successfully!')
     return redirect('/')
