@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from App.views import index,add_data
+from App.views import index,add_data,monthly_data
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
     path('add-data/', add_data),
+    path('monthly-data/', monthly_data, name='monthly_data'),
 ]
