@@ -55,7 +55,7 @@ ROOT_URLCONF = 'PVLogger.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['Templates'],
+        'DIRS': [BASE_DIR / 'Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,5 +122,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATICFILERS_DIRS = [
-    BASE_DIR / "static",]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]

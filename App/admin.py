@@ -1,3 +1,4 @@
 from django.contrib import admin
-from .models import GenerationData
-admin.site.register(GenerationData)
+from .models import DailyData, MonthlyData
+admin.site.register(DailyData)
+admin.site.register(MonthlyData)

@@ -1,13 +1,14 @@
 from django.db import models
+import datetime
 
 # Create your models here.
 class DailyData(models.Model):
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=datetime.date.today() - datetime.timedelta(days=1))
     yesterday_data = models.FloatField()
-    is_generation = models.BooleanField(default=False)
+    is_generation = models.BooleanField(default=True)
     
     def __str__(self):
-        return str(self.timestamp)
+        return str(self.date)
     
 class MonthlyData(models.Model):
     MONTH_CHOICES = [
