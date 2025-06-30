@@ -54,8 +54,10 @@ function fetchMonthlyData(month, year) {
 
 function showMonthlyChart(data) {
     document.getElementById('monthlyChartContainer').style.display = '';
+    // Format dates to show only the date part (YYYY-MM-DD)
+    const formattedDates = data.dates.map(dateStr => dateStr.split('T')[0]);
     const trace1 = {
-        x: data.dates,
+        x: formattedDates,
         y: data.generation_values,
         name: 'Generation (kWh)',
         mode: 'lines+markers',
@@ -63,7 +65,7 @@ function showMonthlyChart(data) {
         marker: { color: '#0d6efd' }
     };
     const trace2 = {
-        x: data.dates,
+        x: formattedDates,
         y: data.consumption_values,
         name: 'Consumption (kWh)',
         mode: 'lines+markers',

@@ -6,46 +6,74 @@ from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.contrib import messages
 
-# Create your views here.
-def index(request):
-    # Get today's date
-    today = datetime.date.today()
+
+def get_daily_data(request):
+    if 'date' in request.GET:
+        date_str = request.GET['date']
+        query_date = datetime.datetime.strptime(date_str, '%Y-%m-%d').date()
+    else:
+        query_date = datetime.date.today() - datetime.timedelta(days=1)
     
-    # Get yesterday's date
-    yesterday = today - datetime.timedelta(days=1)
+    # Fetch daily data for today
+    daily_generation_obj = DailyData.objects.filter(date=query_date, is_generation=True).first()
+    daily_consumption_obj = DailyData.objects.filter(date=query_date, is_generation=False).first()
     
-    # Fetch daily data for yesterday
-    daily_generation_obj = DailyData.objects.filter(date=yesterday, is_generation=True).first()
-    daily_consumption_obj = DailyData.objects.filter(date=yesterday, is_generation=False).first()
-    daily_genartion_data = daily_generation_obj.yesterday_data if daily_generation_obj else 0
+    # Prepare data for response
+    daily_generation_data = daily_generation_obj.yesterday_data if daily_generation_obj else 0
     daily_consumption_data = daily_consumption_obj.yesterday_data if daily_consumption_obj else 0
 
-    # Fetch monthly data for the current month
-    current_month = today.month
-    current_year = today.year
-    monthly_generation_obj = MonthlyData.objects.filter(month=current_month, year=current_year, is_generation=True).first()
-    monthly_consumption_obj = MonthlyData.objects.filter(month=current_month, year=current_year, is_generation=False).first()
-    monthly_generation_data = monthly_generation_obj.months_generation if monthly_generation_obj else 0
-    monthly_consumption_data = monthly_consumption_obj.months_generation if monthly_consumption_obj else 0
-        
-    # Calculate total generation and total consumption overall
-    total_generation = DailyData.objects.filter(is_generation=True).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0
-    total_consumption = DailyData.objects.filter(is_generation=False).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0
-    
+    prev_availble_data = DailyData.objects.filter(date=query_date - datetime.timedelta(days=1)).first()
+    if prev_availble_data:
+        prev_availble_data = True
+    else:
+        prev_availble_data = False
     # Prepare context for rendering
     context = {
-        'daily_generation_data': round(daily_genartion_data, 2),
-        'daily_consumption_data': round(daily_consumption_data, 2),
-        'monthly_generation_data': round(monthly_generation_data, 2),
-        'monthly_consumption_data': round(monthly_consumption_data, 2),
-        'total_generation': round(total_generation, 2),
-        'total_consumption': round(total_consumption, 2),
-        'daily_balance_units': round(daily_genartion_data - daily_consumption_data, 2),
-        'monthly_balance_units': round(monthly_generation_data - monthly_consumption_data, 2),
-        'total_balance_units': round(total_generation - total_consumption, 2),
+        'generation_data': round(daily_generation_data, 2),
+        'consumption_data': round(daily_consumption_data, 2),
+        'prev_availble_data': prev_availble_data,
     }
-    # Render the index.html template with the context
-    return render(request, 'index.html', context)
+    
+    return JsonResponse(context)
+
+def get_monthly_data(request):
+    if 'date' in request.GET:
+        date_str = request.GET['mnth']
+        query_mnth = datetime.datetime.strptime(date_str, '%Y-%m').date().month
+        query_year = datetime.datetime.strptime(date_str, '%Y-%m').date().year
+    else:
+        query_mnth = (datetime.date.today() - datetime.timedelta(days=1)).month
+        query_year = (datetime.date.today() - datetime.timedelta(days=1)).year
+    
+    monthly_generation_obj = MonthlyData.objects.filter(month=query_mnth, year=query_year, is_generation=True).first()
+    monthly_consumption_obj = MonthlyData.objects.filter(month=query_mnth, year=query_year, is_generation=False).first()
+    monthly_generation_data = monthly_generation_obj.months_generation if monthly_generation_obj else 0
+    monthly_consumption_data = monthly_consumption_obj.months_generation if monthly_consumption_obj else 0
+
+    prev_month = query_mnth - 1 if query_mnth > 1 else 12
+    prev_year = query_year if query_mnth > 1 else query_year - 1
+    prev_availble_data = MonthlyData.objects.filter(month=prev_month, year=prev_year).exists()
+
+    # Prepare context for rendering
+    context = {
+        'generation_data': round(monthly_generation_data, 2),
+        'consumption_data': round(monthly_consumption_data, 2),
+        'prev_availble_data': prev_availble_data,
+    }
+    
+    return JsonResponse(context)
+
+def get_total_data(request):
+    total_generation = DailyData.objects.filter(is_generation=True).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0
+    total_consumption = DailyData.objects.filter(is_generation=False).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0
+    context = {
+        'generation_data': round(total_generation, 2),
+        'consumption_data': round(total_consumption, 2),
+    }
+    return JsonResponse(context)
+
+def index(request):
+    return render(request, 'index.html')
 
 def monthly_data(request):
     if request.method == 'GET':

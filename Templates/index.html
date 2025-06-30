@@ -32,19 +32,17 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12 mb-2">
+                            <div class="col-12 mb-1">
                                 <span class="fw-semibold span-title">Generation:</span>
-                                <span class="gen display-6">{{ daily_generation_data }}</span> kWh
+                                <span class="gen display-6 " id = "yes_gen"></span> kWh
                             </div>
-                            <div class="col-12 mb-2">
+                            <div class="col-12 mb-1">
                                 <span class="fw-semibold span-title">Consumption:</span>
-                                <span class="con display-6">{{ daily_consumption_data }}</span> kWh
+                                <span class="con display-6" id = "yes_con"></span> kWh
                             </div>
                             <div class="col-12">
-                                <span class="fw-semibold span-title">Balance Units:</span>
-                                <span class="bal display-6">
-                                    {{ daily_balance_units }}
-                                </span> kWh
+                                <span class="fw-semibold span-title" >Balance Units:</span>
+                                <span class="bal display-6" id = "yes_bal"></span> kWh
                             </div>
                         </div>
                     </div>
@@ -59,17 +57,15 @@
                         <div class="row">
                             <div class="col-12 mb-2">
                                 <span class="fw-semibold span-title">Generation:</span>
-                                <span class="gen display-6">{{ monthly_generation_data }}</span> kWh
+                                <span class="gen display-6" id = "mnth_gen"></span> kWh
                             </div>
                             <div class="col-12 mb-2">
                                 <span class="fw-semibold span-title">Consumption:</span>
-                                <span class="con display-6">{{ monthly_consumption_data }}</span> kWh
+                                <span class="con display-6" id = "mnth_con"></span> kWh
                             </div>
                             <div class="col-12">
                                 <span class="fw-semibold span-title">Balance Units:</span>
-                                <span class="bal display-6">
-                                    {{ monthly_balance_units }}
-                                </span> kWh
+                                <span class="bal display-6" id = "mnth_bal"></span> kWh
                             </div>
                         </div>
                     </div>
@@ -84,17 +80,15 @@
                         <div class="row">
                             <div class="col-12 mb-2">
                                 <span class="fw-semibold span-title">Generation:</span>
-                                <span class="gen display-6">{{ total_generation }}</span> kWh
+                                <span class="gen display-6" id="total_gen"></span> kWh
                             </div>
                             <div class="col-12 mb-2">
                                 <span class="fw-semibold span-title">Consumption:</span>
-                                <span class="con display-6">{{ total_consumption }}</span> kWh
+                                <span class="con display-6" id="total_con"></span> kWh
                             </div>
                             <div class="col-12">
                                 <span class="fw-semibold span-title">Balance Units:</span>
-                                <span class="bal display-6">
-                                    {{ total_balance_units }}
-                                </span> kWh
+                                <span class="bal display-6" id="total_bal"></span> kWh
                             </div>
                         </div>
                     </div>
@@ -124,7 +118,8 @@
                 </div>
             </div>
         </div>
-        <script src="/static/js/custom.js"></script>
+        <script src="/static/js/custom.js?rand=30"></script>
+        <script src="/static/js/api.js?rand=30"></script>
         <div class="text-center mt-5">
             <a href="/add-data" class="btn btn-outline-primary">Add New Data</a>
         </div>
