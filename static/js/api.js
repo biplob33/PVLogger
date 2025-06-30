@@ -1,12 +1,27 @@
-function updateUI(jsonData,endpoint) {
+function animateValue(element, start, end, duration) {
+    if (!element) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        element.innerHTML = (start + (end - start) * progress).toFixed(2);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+function updateUI(jsonData, endpoint) {
     // Extract the parent URL segment before the first '/' or '?' or end of string
     let parentUrl = endpoint.split(/[/?]/)[0];
-    var gen_element = document.getElementById(parentUrl + '_gen')
-    var con_element = document.getElementById(parentUrl + '_con')
-    var bal_element = document.getElementById(parentUrl + '_bal')
-    gen_element.innerHTML = Number(jsonData.generation_data).toFixed(2)
-    con_element.innerHTML = Number(jsonData.consumption_data).toFixed(2)
-    bal_element.innerHTML = Number(jsonData.generation_data - jsonData.consumption_data).toFixed(2)
+    var gen_element = document.getElementById(parentUrl + '_gen');
+    var con_element = document.getElementById(parentUrl + '_con');
+    var bal_element = document.getElementById(parentUrl + '_bal');
+    // Animate values
+    animateValue(gen_element, 0, Number(jsonData.generation_data), 600);
+    animateValue(con_element, 0, Number(jsonData.consumption_data), 300);
+    animateValue(bal_element, 0, Number(jsonData.generation_data - jsonData.consumption_data), 800);
 }
 function get_data(endpoint) {
     return fetch('/api/'+endpoint)
