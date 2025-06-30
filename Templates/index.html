@@ -31,9 +31,22 @@
                         Yesterday's Generation
                     </div>
                     <div class="card-body">
-                        <p class="card-text display-6">
-                            <span class = 'gen'>{{ daily_generation_data }}</span>/<span class="con">{{ daily_consumption_data }}</span> kWh
-                        </p>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <span class="fw-semibold span-title">Generation:</span>
+                                <span class="gen display-6">{{ daily_generation_data }}</span> kWh
+                            </div>
+                            <div class="col-12 mb-2">
+                                <span class="fw-semibold span-title">Consumption:</span>
+                                <span class="con display-6">{{ daily_consumption_data }}</span> kWh
+                            </div>
+                            <div class="col-12">
+                                <span class="fw-semibold span-title">Balance Units:</span>
+                                <span class="bal display-6">
+                                    {{ daily_balance_units }}
+                                </span> kWh
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -43,9 +56,22 @@
                         This Month's Generation
                     </div>
                     <div class="card-body">
-                        <p class="card-text display-6">
-                            <span class="gen">{{ monthly_generation_data }}</span>/<span class="con">{{ monthly_consumption_data }}</span> kWh
-                        </p>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <span class="fw-semibold span-title">Generation:</span>
+                                <span class="gen display-6">{{ monthly_generation_data }}</span> kWh
+                            </div>
+                            <div class="col-12 mb-2">
+                                <span class="fw-semibold span-title">Consumption:</span>
+                                <span class="con display-6">{{ monthly_consumption_data }}</span> kWh
+                            </div>
+                            <div class="col-12">
+                                <span class="fw-semibold span-title">Balance Units:</span>
+                                <span class="bal display-6">
+                                    {{ monthly_balance_units }}
+                                </span> kWh
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -55,9 +81,22 @@
                         Total Generation
                     </div>
                     <div class="card-body">
-                        <p class="card-text display-6">
-                            <span class="gen">{{ total_generation }}</span>/<span class="con">{{ total_consumption }}</span> kWh
-                        </p>
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <span class="fw-semibold span-title">Generation:</span>
+                                <span class="gen display-6">{{ total_generation }}</span> kWh
+                            </div>
+                            <div class="col-12 mb-2">
+                                <span class="fw-semibold span-title">Consumption:</span>
+                                <span class="con display-6">{{ total_consumption }}</span> kWh
+                            </div>
+                            <div class="col-12">
+                                <span class="fw-semibold span-title">Balance Units:</span>
+                                <span class="bal display-6">
+                                    {{ total_balance_units }}
+                                </span> kWh
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

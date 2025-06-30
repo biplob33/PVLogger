@@ -4,3 +4,12 @@
 .con {
     color: #dc3545;
 }
+.bal {
+    color: #17a2b8;
+}
+.gen, .con ,.bal{
+    font-size: 1.4rem !important;
+}
+.span-title {
+    position: relative; top: -3px;
+}
