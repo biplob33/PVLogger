@@ -1,15 +1,20 @@
+// Uses CountUp.js for number animation: https://inorganik.github.io/countUp.js/
+// Add CountUp.js to your HTML: <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
 function animateValue(element, start, end, duration) {
     if (!element) return;
-    let startTimestamp = null;
-    const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        element.innerHTML = (start + (end - start) * progress).toFixed(2);
-        if (progress < 1) {
-            window.requestAnimationFrame(step);
-        }
-    };
-    window.requestAnimationFrame(step);
+    // Remove previous CountUp instance if exists
+    if (element._countUpInstance) {
+        element._countUpInstance.reset();
+    }
+    // Create new CountUp instance
+    const countUp = new window.countUp.CountUp(element, end, {
+        startVal: start,
+        duration: duration / 1000, // CountUp uses seconds
+        decimalPlaces: 2,
+        separator: ','
+    });
+    element._countUpInstance = countUp;
+    countUp.start();
 }
 
 function updateUI(jsonData, endpoint) {
