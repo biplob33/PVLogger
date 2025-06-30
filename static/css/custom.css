@@ -9,7 +9,5 @@
 }
 .gen, .con ,.bal{
     font-size: 1.4rem !important;
-}
-.span-title {
-    position: relative; top: -3px;
+    font-weight: 600!important;
 }
