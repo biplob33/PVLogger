@@ -86,8 +86,28 @@ def add_data(request):
     yesterday_generation_data = request.POST.get('yesterday_generation_data')
     yesterday_consumption_data = request.POST.get('yesterday_consumption_data')
 
-    # Convert date string to date object
+    # Fetch the previous day's generation data
     date_obj = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+    previous_date = date_obj - datetime.timedelta(days=1)
+    previous_generation_obj = DailyData.objects.filter(date=previous_date, is_generation=True).first()
+    previous_generation_data = float(previous_generation_obj.yesterday_data) if previous_generation_obj else 0.0
+
+    # Subtract previous day's generation from the new generation data
+    if yesterday_generation_data:
+        yesterday_generation_data = float(yesterday_generation_data) - previous_generation_data
+    else:
+        yesterday_generation_data = 0.0
+    
+    # Fetch the previous day's consumption data
+    previous_consumption_obj = DailyData.objects.filter(date=previous_date, is_generation=False).first()
+    previous_consumption_data = float(previous_consumption_obj.yesterday_data) if previous_consumption_obj else 0.0
+
+    # Subtract previous day's consumption from the new consumption data
+    if yesterday_consumption_data:
+        yesterday_consumption_data = float(yesterday_consumption_data) - previous_consumption_data
+    else:
+        yesterday_consumption_data = 0.0
+
     # Create or update DailyData for yesterday's generation
     DailyData.objects.update_or_create(
         date=date_obj,
