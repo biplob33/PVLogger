@@ -34,12 +34,15 @@ def index(request):
     
     # Prepare context for rendering
     context = {
-        'daily_generation_data': daily_genartion_data,
-        'daily_consumption_data': daily_consumption_data,
-        'monthly_generation_data': monthly_generation_data,
-        'monthly_consumption_data': monthly_consumption_data,
-        'total_generation': total_generation,
-        'total_consumption': total_consumption,
+        'daily_generation_data': round(daily_genartion_data, 2),
+        'daily_consumption_data': round(daily_consumption_data, 2),
+        'monthly_generation_data': round(monthly_generation_data, 2),
+        'monthly_consumption_data': round(monthly_consumption_data, 2),
+        'total_generation': round(total_generation, 2),
+        'total_consumption': round(total_consumption, 2),
+        'daily_balance_units': round(daily_genartion_data - daily_consumption_data, 2),
+        'monthly_balance_units': round(monthly_generation_data - monthly_consumption_data, 2),
+        'total_balance_units': round(total_generation - total_consumption, 2),
     }
     # Render the index.html template with the context
     return render(request, 'index.html', context)
@@ -94,7 +97,7 @@ def add_data(request):
 
     # Subtract previous day's generation from the new generation data
     if yesterday_generation_data:
-        yesterday_generation_data = float(yesterday_generation_data) - previous_generation_data
+        yesterday_generation_data = round(float(yesterday_generation_data) - previous_generation_data, 2)
     else:
         yesterday_generation_data = 0.0
     
@@ -104,7 +107,7 @@ def add_data(request):
 
     # Subtract previous day's consumption from the new consumption data
     if yesterday_consumption_data:
-        yesterday_consumption_data = float(yesterday_consumption_data) - previous_consumption_data
+        yesterday_consumption_data = round(float(yesterday_consumption_data) - previous_consumption_data, 2)
     else:
         yesterday_consumption_data = 0.0
 
