@@ -117,21 +117,30 @@ def add_data(request):
     yesterday_generation_data = request.POST.get('yesterday_generation_data')
     yesterday_consumption_data = request.POST.get('yesterday_consumption_data')
 
-    # Fetch the previous day's generation data
-    date_obj = datetime.datetime.strptime(date, '%Y-%m-%d').date()
+    # Fetch the monthly generation data for the month and year of the selected date
+    date_obj = datetime.datetime.strptime(date, '%Y-%m-%d').date() 
     previous_date = date_obj - datetime.timedelta(days=1)
-    previous_generation_obj = DailyData.objects.filter(date=previous_date, is_generation=True).first()
-    previous_generation_data = float(previous_generation_obj.yesterday_data) if previous_generation_obj else 0.0
+    month = previous_date.month
+    year = previous_date.year
+    # Calculate the sum of yesterday_data for the given month and year from DailyData
+    monthly_generation_obj_sum = DailyData.objects.filter(
+        date__year=year, date__month=month, is_generation=True
+    ).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0.0
+    previous_generation_data = float(monthly_generation_obj_sum)
+    # previous_generation_data = float(monthly_generation_obj_sum.months_generation) if monthly_generation_obj else 0.0
 
     # Subtract previous day's generation from the new generation data
     if yesterday_generation_data:
         yesterday_generation_data = round(float(yesterday_generation_data) - previous_generation_data, 2)
     else:
         yesterday_generation_data = 0.0
-    
-    # Fetch the previous day's consumption data
-    previous_consumption_obj = DailyData.objects.filter(date=previous_date, is_generation=False).first()
-    previous_consumption_data = float(previous_consumption_obj.yesterday_data) if previous_consumption_obj else 0.0
+
+    # Fetch the monthly generation data for the month and year of the selected date (not previous_date)
+    monthly_consumption_obj_sum = DailyData.objects.filter(
+        date__year=year, date__month=month, is_generation=False
+    ).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0.0
+    previous_consumption_data = float(monthly_consumption_obj_sum)
+    # previous_consumption_data = float(monthly_consumptionn_obj.months_generation) if monthly_consumptionn_obj else 0.0
 
     # Subtract previous day's consumption from the new consumption data
     if yesterday_consumption_data:
