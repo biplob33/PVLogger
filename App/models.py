@@ -8,7 +8,7 @@ class DailyData(models.Model):
     is_generation = models.BooleanField(default=True)
     
     def __str__(self):
-        return str(self.date)
+        return f"{self.date} ({'Generation' if self.is_generation else 'Consumption'})"
     
 class MonthlyData(models.Model):
     MONTH_CHOICES = [
@@ -31,4 +31,4 @@ class MonthlyData(models.Model):
     is_generation = models.BooleanField(default=False)
     
     def __str__(self):
-        return str(self.month)
+        return f"{dict(self.MONTH_CHOICES).get(self.month, str(self.month))} ({'Generation' if self.is_generation else 'Consumption'})"

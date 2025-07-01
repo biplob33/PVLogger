@@ -119,13 +119,13 @@ def add_data(request):
 
     # Fetch the monthly generation data for the month and year of the selected date
     date_obj = datetime.datetime.strptime(date, '%Y-%m-%d').date() 
-    previous_date = date_obj - datetime.timedelta(days=1)
-    month = previous_date.month
-    year = previous_date.year
+    # previous_date = date_obj - datetime.timedelta(days=1)
+    month = date_obj.month
+    year = date_obj.year
     # Calculate the sum of yesterday_data for the given month and year from DailyData
     monthly_generation_obj_sum = DailyData.objects.filter(
         date__year=year, date__month=month, is_generation=True
-    ).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0.0
+    ).exclude(date=date_obj).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0.0
     previous_generation_data = float(monthly_generation_obj_sum)
     # previous_generation_data = float(monthly_generation_obj_sum.months_generation) if monthly_generation_obj else 0.0
 
@@ -138,7 +138,7 @@ def add_data(request):
     # Fetch the monthly generation data for the month and year of the selected date (not previous_date)
     monthly_consumption_obj_sum = DailyData.objects.filter(
         date__year=year, date__month=month, is_generation=False
-    ).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0.0
+    ).exclude(date=date_obj).aggregate(Sum('yesterday_data'))['yesterday_data__sum'] or 0.0
     previous_consumption_data = float(monthly_consumption_obj_sum)
     # previous_consumption_data = float(monthly_consumptionn_obj.months_generation) if monthly_consumptionn_obj else 0.0
 
