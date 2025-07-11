@@ -62,7 +62,8 @@ function showMonthlyChart(data) {
         name: 'Generation (kWh)',
         mode: 'lines+markers',
         type: 'scatter',
-        marker: { color: '#0d6efd' }
+        marker: { color: '#0d6efd' },
+        yaxis: 'y1'
     };
     const trace2 = {
         x: formattedDates,
@@ -70,11 +71,23 @@ function showMonthlyChart(data) {
         name: 'Consumption (kWh)',
         mode: 'lines+markers',
         type: 'scatter',
-        marker: { color: '#ffc107' }
+        marker: { color: '#ffc107' },
+        yaxis: 'y2'
     };
     const layout = {
         xaxis: { title: 'Date' },
-        yaxis: { title: 'kWh' },
+        yaxis: {
+            title: 'Generation (kWh)',
+            titlefont: { color: '#0d6efd' },
+            tickfont: { color: '#0d6efd' }
+        },
+        yaxis2: {
+            title: 'Consumption (kWh)',
+            titlefont: { color: '#ffc107' },
+            tickfont: { color: '#ffc107' },
+            overlaying: 'y',
+            side: 'right'
+        },
         legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: 1.1 }
     };
     Plotly.newPlot('monthlyChart', [trace1, trace2], layout, { responsive: true });
