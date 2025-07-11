@@ -62,7 +62,8 @@ function showMonthlyChart(data) {
         name: 'Generation (kWh)',
         mode: 'lines+markers',
         type: 'scatter',
-        marker: { color: '#0d6efd' }
+        marker: { color: '#0d6efd' },
+        hovertemplate: '%{x|%b %e}<br>%{y} kWh<extra></extra>'
     };
     const trace2 = {
         x: formattedDates,
@@ -71,6 +72,8 @@ function showMonthlyChart(data) {
         mode: 'lines+markers',
         type: 'scatter',
         marker: { color: '#ffc107' }
+        ,
+        hovertemplate: '%{x|%b %e}<br>%{y} kWh<extra></extra>'
     };
     const maxY = Math.max(
         ...data.generation_values,
