@@ -62,8 +62,7 @@ function showMonthlyChart(data) {
         name: 'Generation (kWh)',
         mode: 'lines+markers',
         type: 'scatter',
-        marker: { color: '#0d6efd' },
-        yaxis: 'y1'
+        marker: { color: '#0d6efd' }
     };
     const trace2 = {
         x: formattedDates,
@@ -71,22 +70,19 @@ function showMonthlyChart(data) {
         name: 'Consumption (kWh)',
         mode: 'lines+markers',
         type: 'scatter',
-        marker: { color: '#ffc107' },
-        yaxis: 'y2'
+        marker: { color: '#ffc107' }
     };
+    const maxY = Math.max(
+        ...data.generation_values,
+        ...data.consumption_values
+    ) + 3;
     const layout = {
         xaxis: { title: 'Date' },
         yaxis: {
-            title: 'Generation (kWh)',
-            titlefont: { color: '#0d6efd' },
-            tickfont: { color: '#0d6efd' }
-        },
-        yaxis2: {
-            title: 'Consumption (kWh)',
-            titlefont: { color: '#ffc107' },
-            tickfont: { color: '#ffc107' },
-            overlaying: 'y',
-            side: 'right'
+            title: 'Energy (kWh)',
+            titlefont: { color: '#333' },
+            tickfont: { color: '#333' },
+            range: [0, maxY]
         },
         legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: 1.1 }
     };
