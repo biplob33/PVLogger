@@ -43,9 +43,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Day navigation ---
     let currentDay = new Date();
+    // Set currentDay to yesterday by default
+    currentDay.setDate(currentDay.getDate() - 1);
     function updateDayHeader() {
         const header = document.getElementById('yes_header');
-        header.textContent = currentDay.toLocaleDateString('default', { year: 'numeric', month: 'long', day: 'numeric' });
+        header.textContent = 'Yesterday (' + currentDay.toLocaleDateString('default', { year: 'numeric', month: 'long', day: 'numeric' }) + ')';
     }
     function fetchDayData() {
         // Format date as YYYY-MM-DD
@@ -62,9 +64,16 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchDayData();
     });
     document.getElementById('yes_next_btn').addEventListener('click', function () {
-        currentDay.setDate(currentDay.getDate() + 1);
-        updateDayHeader();
-        fetchDayData();
+        // Only allow up to yesterday
+        let today = new Date();
+        today.setHours(0,0,0,0);
+        let yesterday = new Date(today);
+        yesterday.setDate(today.getDate() - 1);
+        if (currentDay < yesterday) {
+            currentDay.setDate(currentDay.getDate() + 1);
+            updateDayHeader();
+            fetchDayData();
+        }
     });
     updateDayHeader();
     fetchDayData();
@@ -80,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const year = currentMonth.getFullYear();
         fetch(`/api/mnth/?month=${month}&year=${year}`)
             .then(res => res.json())
-            .then(data => {
+            .then(function(data) {
                 if (typeof updateUI === 'function') updateUI(data, 'mnth/');
             });
     }
@@ -127,13 +136,30 @@ function showMonthlyChart(data) {
         name: 'Consumption (kWh)',
         mode: 'lines+markers',
         type: 'scatter',
-        marker: { color: '#ffc107' }
-        ,
+        marker: { color: '#ffc107' },
         hovertemplate: '%{x|%b %e}<br>%{y} kWh<extra></extra>'
     };
+    // Add savings trace (savings = generation - consumption)
+    const savings = data.generation_values.map((gen, i) => gen - (data.consumption_values[i] || 0));
+    const trace3 = {
+        x: formattedDates,
+        y: savings,
+        name: 'Savings (kWh)',
+        mode: 'lines+markers',
+        type: 'scatter',
+        marker: { color: '#28a745' },
+        line: { dash: 'dot' },
+        hovertemplate: '%{x|%b %e}<br>%{y} kWh<extra></extra>'
+    };
+    const minY = Math.min(
+        ...data.generation_values,
+        ...data.consumption_values,
+        ...savings
+    );
     const maxY = Math.max(
         ...data.generation_values,
-        ...data.consumption_values
+        ...data.consumption_values,
+        ...savings
     ) + 3;
     const layout = {
         xaxis: { title: 'Date' },
@@ -141,9 +167,9 @@ function showMonthlyChart(data) {
             title: 'Energy (kWh)',
             titlefont: { color: '#333' },
             tickfont: { color: '#333' },
-            range: [0, maxY]
+            range: [minY, maxY]
         },
         legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: 1.1 }
     };
-    Plotly.newPlot('monthlyChart', [trace1, trace2], layout, { responsive: true });
+    Plotly.newPlot('monthlyChart', [trace1, trace2, trace3], layout, { responsive: true });
 }

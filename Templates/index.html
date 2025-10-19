@@ -9,6 +9,7 @@
     <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/countup.js@2.8.0/dist/countUp.umd.js"></script>
     <link rel="stylesheet" href="static/css/custom.css?rand=34">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -29,9 +30,13 @@
             <div class="col-md-4 mb-4">
                 <div class="card text-center shadow">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                        <button id="yes_prev_btn" class="btn btn-sm btn-light" type="button" aria-label="Previous day">&larr;</button>
+                        <button id="yes_prev_btn" class="btn btn-sm btn-light px-1 py-0" type="button" aria-label="Previous day">
+                            <span class="material-icons" style="font-size:16px;line-height:1;">chevron_left</span>
+                        </button>
                         <div id="yes_header" class="flex-fill text-center fw-semibold">Yesterday's Generation</div>
-                        <button id="yes_next_btn" class="btn btn-sm btn-light" type="button" aria-label="Next day">&rarr;</button>
+                        <button id="yes_next_btn" class="btn btn-sm btn-light px-1 py-0" type="button" aria-label="Next day">
+                            <span class="material-icons" style="font-size:16px;line-height:1;">chevron_right</span>
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -73,9 +78,13 @@
             <div class="col-md-4 mb-4">
                 <div class="card text-center shadow">
                     <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                        <button id="mnth_prev_btn" class="btn btn-sm btn-light" type="button" aria-label="Previous month">&larr;</button>
+                        <button id="mnth_prev_btn" class="btn btn-sm btn-light px-1 py-0" type="button" aria-label="Previous month">
+                            <span class="material-icons" style="font-size:16px;line-height:1;">chevron_left</span>
+                        </button>
                         <div id="mnth_header" class="flex-fill text-center fw-semibold">This Month's Generation</div>
-                        <button id="mnth_next_btn" class="btn btn-sm btn-light" type="button" aria-label="Next month">&rarr;</button>
+                        <button id="mnth_next_btn" class="btn btn-sm btn-light px-1 py-0" type="button" aria-label="Next month">
+                            <span class="material-icons" style="font-size:16px;line-height:1;">chevron_right</span>
+                        </button>
                     </div>
                     <div class="card-body">
                         <div class="row">
