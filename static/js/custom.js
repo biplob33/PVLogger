@@ -176,5 +176,7 @@ function showMonthlyChart(data) {
         },
         legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: 1.1 }
     };
+    // By default, hide the savings trace (trace3) in the legend, so user can enable it interactively
+    trace3.visible = 'legendonly';
     Plotly.newPlot('monthlyChart', [trace1, trace2, trace3], layout, { responsive: true });
 }
