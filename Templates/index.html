@@ -28,8 +28,10 @@
         <div class="row justify-content-center">
             <div class="col-md-4 mb-4">
                 <div class="card text-center shadow">
-                    <div class="card-header bg-primary text-white">
-                        Yesterday's Generation
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <button id="yes_prev_btn" class="btn btn-sm btn-light" type="button" aria-label="Previous day">&larr;</button>
+                        <div id="yes_header" class="flex-fill text-center fw-semibold">Yesterday's Generation</div>
+                        <button id="yes_next_btn" class="btn btn-sm btn-light" type="button" aria-label="Next day">&rarr;</button>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -70,8 +72,10 @@
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card text-center shadow">
-                    <div class="card-header bg-success text-white">
-                        This Month's Generation
+                    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                        <button id="mnth_prev_btn" class="btn btn-sm btn-light" type="button" aria-label="Previous month">&larr;</button>
+                        <div id="mnth_header" class="flex-fill text-center fw-semibold">This Month's Generation</div>
+                        <button id="mnth_next_btn" class="btn btn-sm btn-light" type="button" aria-label="Next month">&rarr;</button>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -174,7 +178,7 @@
                 </div>
             </div>
         </div>
-        <script src="/static/js/custom.js?rand=30"></script>
+        <script src="/static/js/custom.js?rand=35"></script>
         <script src="/static/js/api.js?rand=30"></script>
         <div class="text-center mt-5">
             <a href="/add-data" class="btn btn-outline-primary">Add New Data</a>

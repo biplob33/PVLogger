@@ -41,6 +41,9 @@ def get_monthly_data(request):
         date_str = request.GET['mnth']
         query_mnth = datetime.datetime.strptime(date_str, '%Y-%m').date().month
         query_year = datetime.datetime.strptime(date_str, '%Y-%m').date().year
+    elif 'month' in request.GET and 'year' in request.GET:
+        query_mnth = int(request.GET['month'])
+        query_year = int(request.GET['year'])
     else:
         query_mnth = (datetime.date.today() - datetime.timedelta(days=1)).month
         query_year = (datetime.date.today() - datetime.timedelta(days=1)).year
