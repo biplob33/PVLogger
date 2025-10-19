@@ -167,7 +167,7 @@ function showMonthlyChart(data) {
             title: 'Energy (kWh)',
             titlefont: { color: '#333' },
             tickfont: { color: '#333' },
-            range: [minY, maxY]
+            range: [minY, maxY+3]
         },
         legend: { orientation: 'h', x: 0.5, xanchor: 'center', y: 1.1 }
     };
