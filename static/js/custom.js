@@ -34,10 +34,15 @@ document.addEventListener('DOMContentLoaded', function () {
     menu.addEventListener('click', function (e) {
         if (e.target.matches('.dropdown-item')) {
             e.preventDefault();
-            const month = e.target.dataset.month;
-            const year = e.target.dataset.year;
+            const month = parseInt(e.target.dataset.month);
+            const year = parseInt(e.target.dataset.year);
             document.getElementById('monthDropdown').textContent = e.target.textContent;
             fetchMonthlyData(month, year);
+            // Also update the 2nd tab (month navigation) to match the dropdown
+            currentMonth.setFullYear(year);
+            currentMonth.setMonth(month - 1);
+            updateMonthHeader();
+            fetchMonthData();
         }
     });
 
